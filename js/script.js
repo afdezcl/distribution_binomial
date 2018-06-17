@@ -65,6 +65,7 @@ function show(){
     graphicBinomial();
     document.getElementById('simular-btn').disabled = true;
     document.getElementById('h2-tcl').style.visibility='visible';
+    document.getElementById('section-probabilities').style.visibility='visible';
     teoremCentralLimit(arrayResults.length);
     graphicTCL();
 }
@@ -150,6 +151,14 @@ function teoremCentralLimit(size){
     console.log('MEDIA: ' + media(arrayTCL).toFixed(0));
     console.log('VARIANZA: ' + variance(arrayTCL).toFixed(0));
 
+}
+
+function calculateProbSing(){
+
+}
+
+function calculateProbInterval(){
+    
 }
 
 

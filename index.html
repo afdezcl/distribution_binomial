@@ -32,8 +32,8 @@
                         <li class="list-inline-item">
                             <img src="images/logo.png" alt="logo" height="50">   
                         </li>
-                        <li class="list-inline-item">
-                            <h5 id="title">Distribución Binomial</h5>
+                        <li class="list-inline-item">                            
+                            <a id="title" href="index.html">Distribución Binomial</a>
                         </li>
                     </ul>
                                      
@@ -94,7 +94,42 @@
                         <p id="varianza" class="text-center"></p>
                     </div>
                 </div>
-
+                
+                <div id="section-probabilities" style="visibility: hidden;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card border-warning mb-3">
+                                <div class="card-header">
+                                    Calcular Probabilidad Singular
+                                </div>
+                                <div class="card-body text-dark">
+                                    <p>Probabilidad de que N sea igual a: <input class="ml-2" id="input-prob-singular" type="number">
+                                    <button class="btn btn-outline-success ml-4" type="button" onclick="calculateProbSing()">Calcular</button>                            
+                                    <span class="ml-4" id="span-singular"></span>
+                                    </p>                                      
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+        
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card border-warning mb-3">
+                                <div class="card-header">
+                                    Calcular Probabilidad en Intervalo
+                                </div>
+                                <div class="card-body text-dark">
+                                    <p>Probabilidad de que N esté entre <input class="ml-2 mr-2" id="input-prob-interval1" type="number">  y  <input class="ml-2" id="input-prob-interval2" type="number">
+                                    <button class="btn btn-outline-success ml-4" type="button" onclick="calculateProbInterval()">Calcular</button> 
+                                    <span class="ml-4" id="span-interval"></span>                           
+                                    </p>  
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>                
+                </div>
+                
+            
                 <!-- Second Graphic-->
                 <div class="row">
                     <div class="col-md-12 mt-5 text-center">
