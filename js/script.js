@@ -5,28 +5,64 @@ var arrayTCL = [];
 
 //-----------------
 
-function show(){        
+// GRAPHICS
+
+function graphicBinomial(){
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
-    // The type of chart we want to create
+    
     type: 'bar',
 
-    // The data for our dataset
+    
     data: {
         labels: arrayLabels,
         datasets: [{
             label: "Resultados Binomial",
             backgroundColor: '#c75c5c',
             borderColor: '#c75c5c',
-            data: arrayResults, //quitar este array y llamar a una funcion que devuelve un array con los resultados
+            data: arrayResults,
+        }]
+    },
+    
+    options: {}
+    
+    });
+
+    var chart = document.getElementById('myChart').style.visibility='visible';    
+}
+
+
+function graphicTCL(){
+    var ctx = document.getElementById('secondChart').getContext('2d');
+    var chart = new Chart(ctx, {
+    
+    type: 'bar',
+
+    
+    data: {
+        labels: arrayTCL,
+        datasets: [{
+            label: "Resultados TCL",
+            backgroundColor: '#f5cf87',
+            borderColor: '#f5cf87',
+            data: arrayResults, 
         }]
     },
 
-    // Configuration options go here
+    
     options: {}
     
 });
-    var chart = document.getElementById('myChart').style.visibility='visible';    
+    var chart = document.getElementById('secondChart').style.visibility='visible';        
+    document.getElementById('mediaTCL').innerHTML = 'La media es ' + media(arrayTCL).toFixed(0);
+    document.getElementById('varianzaTCL').innerHTML = 'La varianza es ' + variance(arrayTCL).toFixed(0);
+
+}
+
+// END GRAPHICS
+
+function show(){        
+    graphicBinomial();
     document.getElementById('simular-btn').disabled = true;
     document.getElementById('h2-tcl').style.visibility='visible';
     teoremCentralLimit(arrayResults.length);
@@ -108,7 +144,7 @@ function teoremCentralLimit(size){
     var varianceArray = variance(arrayResults);
     
     for(let i = 0; i < size; i++){
-        arrayTCL[i] = (arrayResults[i] - mediaArray) / Math.sqrt(varianceArray);
+        arrayTCL[i] = ((arrayResults[i] - mediaArray) / Math.sqrt(varianceArray));
     }
 
     console.log('MEDIA: ' + media(arrayTCL).toFixed(0));
@@ -116,32 +152,6 @@ function teoremCentralLimit(size){
 
 }
 
-function graphicTCL(){
-    var ctx = document.getElementById('secondChart').getContext('2d');
-    var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'bar',
-
-    // The data for our dataset
-    data: {
-        labels: arrayTCL,
-        datasets: [{
-            label: "Resultados TCL",
-            backgroundColor: '#f5cf87',
-            borderColor: '#f5cf87',
-            data: arrayResults, //quitar este array y llamar a una funcion que devuelve un array con los resultados
-        }]
-    },
-
-    // Configuration options go here
-    options: {}
-    
-});
-    var chart = document.getElementById('secondChart').style.visibility='visible';        
-    document.getElementById('mediaTCL').innerHTML = 'La media es ' + media(arrayTCL).toFixed(0);
-    document.getElementById('varianzaTCL').innerHTML = 'La varianza es ' + variance(arrayTCL).toFixed(0);
-
-}
 
 
 
