@@ -1,0 +1,46 @@
+/* General */
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Header */
+header {
+    background-color: #c75c5c;
+    padding-top: 25px;
+}
+
+.social-header {
+    margin-top: 12px;
+}
+
+    .social-header a {
+        color: #fff;
+        margin-left: 10px;
+    }
+
+.menu-bar {
+    background-color: #f5cf87;
+    margin-top: 5px;
+}
+#title {
+    color: #fff;
+    margin-top: 12px;
+    
+}
+
+#change-color {
+    color: #ffffff;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+/* Content */
+.input-values {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+
+/* Footer */
+
+
