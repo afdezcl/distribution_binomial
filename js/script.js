@@ -1,7 +1,7 @@
 // Global variables
 var arrayResults = [];
-var arrayData = [];
-
+var arrayLabels = [];
+var arrayTCL = [];
 
 //-----------------
 
@@ -13,9 +13,9 @@ function show(){
 
     // The data for our dataset
     data: {
-        labels: arrayData,
+        labels: arrayLabels,
         datasets: [{
-            label: "Resultados",
+            label: "Resultados Binomial",
             backgroundColor: '#c75c5c',
             borderColor: '#c75c5c',
             data: arrayResults, //quitar este array y llamar a una funcion que devuelve un array con los resultados
@@ -26,7 +26,11 @@ function show(){
     options: {}
     
 });
-    var chart = document.getElementById('myChart').style.visibility='visible';
+    var chart = document.getElementById('myChart').style.visibility='visible';    
+    document.getElementById('simular-btn').disabled = true;
+    document.getElementById('h2-tcl').style.visibility='visible';
+    teoremCentralLimit(arrayResults.length);
+    graphicTCL();
 }
 
 function inputValues(){
@@ -34,13 +38,13 @@ function inputValues(){
     var n = document.getElementById('valueN').value;
     var p = document.getElementById('valueP').value;
     
+    if ((size === "") || (n === "") || (p === "")){
+        window.alert('No puede haber campos vacíos');
+        return false;
+    } 
+    console.log('p: '+ p);
 
-    console.log('Valor de size: ' + size);
-    console.log('N: ' + n);
-    console.log('P: ' + p);
-
-    results(size, n, p);
-    console.log(arrayResults);    
+    results(size, n, p);    
     show();
 
 }
@@ -52,24 +56,29 @@ function results(size, n, p){
     for(let i = 0; i < size; i++){ 
         result = binomial(n, p);   
         arrayResults[i] = result;
-        arrayData[i] = i+1;
-        console.log('Resultado ' + i + ":" + result);
+        arrayLabels[i] = i+1;        
         media += result;
     }
 
-    media = media / size;     
-    console.log('Media: ' + trunc(media, 2));
-    document.getElementById('media').innerHTML = 'La media es ' + media;
-    document.getElementById('varianza').innerHTML = 'La varianza es ';
+    media = media / size;             
+    document.getElementById('media').innerHTML = 'La media es ' + media.toFixed(2);
+    document.getElementById('varianza').innerHTML = 'La varianza es ' + variance(arrayResults).toFixed(2);
 
 }
+function suma(array) {
+    var num = 0;
+    for (var i = 0, l = array.length; i < l; i++) num += array[i];
+    return num;
+}
 
-function trunc (x, posiciones = 0) {
-    var s = x.toString()
-    var l = s.length
-    var decimalLength = s.indexOf('.') + 1
-    var numStr = s.substr(0, decimalLength + posiciones)
-    return Number(numStr)
+function media(array) {
+    return suma(array) / array.length;
+}
+function variance(array) {
+    var mean = media(array);
+    return media(array.map(function(num) {
+        return Math.pow(num - mean, 2);
+    }));
 }
 
 function bernoulli(p){
@@ -93,3 +102,47 @@ function binomial(n, p) {
 
     return (exitos);
 }
+
+function teoremCentralLimit(size){
+    var mediaArray = media(arrayResults);
+    var varianceArray = variance(arrayResults);
+    
+    for(let i = 0; i < size; i++){
+        arrayTCL[i] = (arrayResults[i] - mediaArray) / Math.sqrt(varianceArray);
+    }
+
+    console.log('MEDIA: ' + media(arrayTCL).toFixed(0));
+    console.log('VARIANZA: ' + variance(arrayTCL).toFixed(0));
+
+}
+
+function graphicTCL(){
+    var ctx = document.getElementById('secondChart').getContext('2d');
+    var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels: arrayTCL,
+        datasets: [{
+            label: "Resultados TCL",
+            backgroundColor: '#f5cf87',
+            borderColor: '#f5cf87',
+            data: arrayResults, //quitar este array y llamar a una funcion que devuelve un array con los resultados
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+    
+});
+    var chart = document.getElementById('secondChart').style.visibility='visible';        
+    document.getElementById('mediaTCL').innerHTML = 'La media es ' + media(arrayTCL).toFixed(0);
+    document.getElementById('varianzaTCL').innerHTML = 'La varianza es ' + variance(arrayTCL).toFixed(0);
+
+}
+
+
+
+

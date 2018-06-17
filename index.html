@@ -79,7 +79,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <button class="btn btn-outline-success mb-5" type="button" onclick="inputValues()">Simular</button>                            
+                            <button class="btn btn-outline-success mb-5" type="button" onclick="inputValues()" id="simular-btn">Simular</button>                            
                         </div>
                     </div>
                 </form>
@@ -92,6 +92,24 @@
                     </div>
                     <div class="col-md-6">
                         <p id="varianza" class="text-center"></p>
+                    </div>
+                </div>
+
+                <!-- Second Graphic-->
+                <div class="row">
+                    <div class="col-md-12 mt-5 text-center">
+                        <h2 id="h2-tcl" style="visibility: hidden;" class="mb-5">Teorema Central del Límite</h2>
+                    </div>                    
+                </div>
+                <div class="row">
+                    <canvas id="secondChart" style="visibility:hidden;"></canvas>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p id="mediaTCL" class="text-center"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p id="varianzaTCL" class="text-center"></p>
                     </div>
                 </div>
             </div>
