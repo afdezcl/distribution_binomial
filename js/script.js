@@ -1,19 +1,19 @@
 // Global variables
-var MEDIA;
 var arrayResults = [];
 var arrayData = [];
 
 
 //-----------------
 
-var ctx = document.getElementById('myChart').getContext('2d');
-var chart = new Chart(ctx, {
+function show(){        
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
     // The type of chart we want to create
     type: 'bar',
 
     // The data for our dataset
     data: {
-        labels: ["1", "February", "March", "April", "May", "June", "July"],
+        labels: arrayData,
         datasets: [{
             label: "Resultados",
             backgroundColor: '#c75c5c',
@@ -24,19 +24,9 @@ var chart = new Chart(ctx, {
 
     // Configuration options go here
     options: {}
+    
 });
-
-
-
-
-
-
-
-
-
-function show(){
     var chart = document.getElementById('myChart').style.visibility='visible';
-    //chart.setAttribute("hidden", "false");
 }
 
 function inputValues(){
@@ -50,8 +40,7 @@ function inputValues(){
     console.log('P: ' + p);
 
     results(size, n, p);
-    console.log(arrayResults);
-    console.log(arrayData);
+    console.log(arrayResults);    
     show();
 
 }
@@ -70,6 +59,8 @@ function results(size, n, p){
 
     media = media / size;     
     console.log('Media: ' + trunc(media, 2));
+    document.getElementById('media').innerHTML = 'La media es ' + media;
+    document.getElementById('varianza').innerHTML = 'La varianza es ';
 
 }
 
