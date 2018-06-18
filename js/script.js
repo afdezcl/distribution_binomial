@@ -154,10 +154,43 @@ function teoremCentralLimit(size){
 }
 
 function calculateProbSing(){
+    var value = document.getElementById('input-prob-singular').value;
+    var total = 0;
+    
+    for(let i = 0; i < arrayResults.length; i++){        
+        if(arrayResults[i] == value){
+            console.log('Valor: ' + arrayResults[i]);    
+            total++;
+        }
+    }
 
+    var probability = total / arrayResults.length;
+    console.log('Hay tantos N: ' + total);
+
+    document.getElementById('span-singular').innerHTML = 'La probabilidad es: ' + probability;
 }
 
 function calculateProbInterval(){
+    var valueJust = document.getElementById('input-prob-interval1').value;
+    var valueUntil = document.getElementById('input-prob-interval2').value;
+    var total = 0;
+
+    if(valueUntil <= valueJust){
+        window.alert('El segundo valor no puede ser menor o igual que el primero');
+    } else {
+
+        for(let i = 0; i < arrayResults.length; i++){        
+            if((arrayResults[i] >= valueJust) && (arrayResults[i] <= valueUntil)){
+                console.log('Valor: ' + arrayResults[i]);    
+                total++;
+            }
+        }
+        var probability = total / arrayResults.length;
+        document.getElementById('span-interval').innerHTML = 'La probabilidad es: ' + probability;
+    }
+
+
+
     
 }
 
