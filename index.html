@@ -100,7 +100,7 @@
                         <div class="col-md-12">
                             <div class="card border-warning mb-3">
                                 <div class="card-header">
-                                    Calcular Probabilidad Singular
+                                    Calcular Probabilidad Puntual
                                 </div>
                                 <div class="card-body text-dark">
                                     <p>Probabilidad de que N sea igual a: <input class="ml-2" id="input-prob-singular" type="number">
@@ -111,6 +111,21 @@
                             </div>
                         </div>                        
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card border-danger mb-3">
+                                <div class="card-header">
+                                    Calculo de Error Cometido Puntual
+                                </div>
+                                <div class="card-body text-dark">
+                                    <p>
+                                    <span class="ml-4" id="span-errorPuntual"></span>                           
+                                    </p>  
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>                
+                    
         
                     <div class="row">
                         <div class="col-md-12">
@@ -120,18 +135,28 @@
                                 </div>
                                 <div class="card-body text-dark">
                                     <p>Probabilidad de que N esté entre <input class="ml-2 mr-2" id="input-prob-interval1" type="number">  y  <input class="ml-2" id="input-prob-interval2" type="number">
-                                    <button class="btn btn-outline-success ml-4" type="button" onclick="calculateProbInterval()">Calcular</button> 
-                                    <span class="ml-4" id="span-interval"></span>                           
+                                    <select class="custom-select col-md-2 ml-2" id="selectInterval">                                        
+                                        <option value="cerrado">[a, b]</option>
+                                        <option value="abierto">(a, b)</option>
+                                        <option value="abiertoIzq">(a, b]</option>
+                                        <option value="abiertoDer">[a, b)</option>
+                                    </select>   
+                                    <button class="btn btn-outline-success ml-4" type="button" onclick="calculateProbInterval()">Calcular</button>                                                              
                                     </p>  
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <span id="span-interval"></span>  
+                                        </div>                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>                        
-                    </div>
+                    </div>                 
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="card border-danger mb-3">
                                 <div class="card-header">
-                                    Calculo de Error Cometido
+                                    Calculo de Error Cometido del Intervalo
                                 </div>
                                 <div class="card-body text-dark">
                                     <p>

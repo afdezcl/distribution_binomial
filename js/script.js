@@ -3,6 +3,8 @@ var arrayResults = [];
 var arrayLabels = [];
 var arrayTCL = [];
 var simulaciones = 0;
+var valorN = 0;
+var valorP = 0;
 // END Global Variables
 
 
@@ -36,7 +38,6 @@ function show(){
     document.getElementById('section-probabilities').style.visibility='visible';
     teoremCentralLimit(arrayResults.length);
     graphicTCL();
-console.log('simulaciones arr' + arrayResults.length);
 
 }
 
@@ -45,6 +46,8 @@ function inputValues(){
     var n = document.getElementById('valueN').value;
     var p = document.getElementById('valueP').value;
     simulaciones = size;
+    valorN = n;
+    valorP = p;
     if ((size === "") || (n === "") || (p === "")){
         window.alert('No puede haber campos vacíos');
         return false;
@@ -67,8 +70,8 @@ function results(size, n, p){
     }
 
     media = media / size;             
-    document.getElementById('media').innerHTML = 'La media es ' + media.toFixed(2);
-    document.getElementById('varianza').innerHTML = 'La varianza es ' + variance(arrayResults).toFixed(2);
+    document.getElementById('media').innerHTML = 'La media es ' + media.toFixed(3);
+    document.getElementById('varianza').innerHTML = 'La varianza es ' + variance(arrayResults).toFixed(3);
 
 }
 
@@ -115,36 +118,66 @@ function calculateProbSing(){
     }
 
     var probability = total / arrayResults.length;    
-    document.getElementById('span-singular').innerHTML = 'La probabilidad es: ' + probability.toFixed(2);
+    document.getElementById('span-singular').innerHTML = 'La probabilidad es: ' + probability.toFixed(3);
+    errorTaskPuntual();
+}
+
+function errorTaskPuntual(){
+    var mediaReal = valorN * valorP;
+    var varianzaReal = valorN * valorP * (1 - valorP);
+    console.log(mediaReal + " y  varianza" + varianzaReal);
+
 }
 
 function calculateProbInterval(){
     var valueJust = document.getElementById('input-prob-interval1').value;
     var valueUntil = document.getElementById('input-prob-interval2').value;
+    var select = document.getElementById('selectInterval').value;
     var total = 0;
     var sum = 0;
 
     if(valueUntil <= valueJust){
         window.alert('El segundo valor no puede ser menor o igual que el primero');
     } else {
-
-        for(let i = 0; i < arrayResults.length; i++){        
-            if((arrayResults[i] >= valueJust) && (arrayResults[i] <= valueUntil)){                  
-                total++;
-                sum += arrayResults[i];
+        if(select == "cerrado"){
+            for(let i = 0; i < arrayResults.length; i++){        
+                if((arrayResults[i] >= valueJust) && (arrayResults[i] <= valueUntil)){                  
+                    total++;
+                    sum += arrayResults[i];
+                }
+            }
+        } else if(select == "abierto"){
+            for(let i = 0; i < arrayResults.length; i++){        
+                if((arrayResults[i] > valueJust) && (arrayResults[i] < valueUntil)){                  
+                    total++;
+                    sum += arrayResults[i];
+                }
+            }
+        } else if(select == "abiertoIzq"){
+            for(let i = 0; i < arrayResults.length; i++){        
+                if((arrayResults[i] > valueJust) && (arrayResults[i] <= valueUntil)){                  
+                    total++;
+                    sum += arrayResults[i];
+                }
+            }
+        } else {
+            for(let i = 0; i < arrayResults.length; i++){        
+                if((arrayResults[i] >= valueJust) && (arrayResults[i] < valueUntil)){                  
+                    total++;
+                    sum += arrayResults[i];
+                }
             }
         }
         var probability = total / arrayResults.length;
         document.getElementById('span-interval').innerHTML = 'La probabilidad es: ' + probability.toFixed(2);
-        errorTask(sum, total, probability);
+        errorTaskInterval(sum, total, probability);
     }
     
 }
 
-function errorTask(sum, total, probability){
+function errorTaskInterval(sum, total, probability){
     var media = sum / total;
     var error = media / arrayResults.length;
-    console.log('NUMERO DE ELEMENTOS: ' + arrayResults.length);
     var totalError = Math.abs(error - probability);
     document.getElementById('span-error').innerHTML = 'El error cometido del intervalo es ' +  totalError.toFixed(2);
 
@@ -168,11 +201,11 @@ Array.prototype.unique=function(a){
     return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
   });
 
-function calculo(){
+function calculo(array){
 
-    var x = arrayResults.sort((a, b) => a - b );
+    var x = array.sort((a, b) => a - b );
     var frecuencias = [];
-    frecuencias.length = ((arrayResults.unique())).length;
+    frecuencias.length = ((array.unique())).length;
     console.log('Tam array frec' + frecuencias.length);
     var cant = 0;
     var c = 0;
@@ -208,7 +241,7 @@ function graphicBinomial(){
             label: "Resultados Binomial",
             backgroundColor: '#c75c5c',
             borderColor: '#c75c5c',
-            data: calculo(),
+            data: calculo(arrayResults),
         }]
     },
     
@@ -225,15 +258,17 @@ function graphicTCL(){
     var chart = new Chart(ctx, {
     
     type: 'bar',
+    type: 'line',
 
     
     data: {
-        labels: arrayTCL,
+        labels: (arrayTCL.unique()).sort((a, b) => a - b ),
         datasets: [{
+           // fill: false,
             label: "Resultados TCL",
             backgroundColor: '#f5cf87',
             borderColor: '#f5cf87',
-            data: arrayResults, 
+            data: calculo(arrayResults), 
         }]
     },
 
@@ -241,8 +276,9 @@ function graphicTCL(){
     options: {}
     
 });
+
     var chart = document.getElementById('secondChart').style.visibility='visible';        
-    document.getElementById('mediaTCL').innerHTML = 'La media es ' + media(arrayTCL).toFixed(0);
+    document.getElementById('mediaTCL').innerHTML = 'La media es ' + Math.abs(media(arrayTCL).toFixed(0));
     document.getElementById('varianzaTCL').innerHTML = 'La varianza es ' + variance(arrayTCL).toFixed(0);
 
 }
