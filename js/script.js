@@ -119,13 +119,6 @@ function calculateProbSing(){
 
     var probability = total / arrayResults.length;    
     document.getElementById('span-singular').innerHTML = 'La probabilidad es: ' + probability.toFixed(3);
-    errorTaskPuntual();
-}
-
-function errorTaskPuntual(){
-    var mediaReal = valorN * valorP;
-    var varianzaReal = valorN * valorP * (1 - valorP);
-    console.log(mediaReal + " y  varianza" + varianzaReal);
 
 }
 
@@ -143,41 +136,37 @@ function calculateProbInterval(){
             for(let i = 0; i < arrayResults.length; i++){        
                 if((arrayResults[i] >= valueJust) && (arrayResults[i] <= valueUntil)){                  
                     total++;
-                    sum += arrayResults[i];
                 }
             }
         } else if(select == "abierto"){
             for(let i = 0; i < arrayResults.length; i++){        
                 if((arrayResults[i] > valueJust) && (arrayResults[i] < valueUntil)){                  
                     total++;
-                    sum += arrayResults[i];
                 }
             }
         } else if(select == "abiertoIzq"){
             for(let i = 0; i < arrayResults.length; i++){        
                 if((arrayResults[i] > valueJust) && (arrayResults[i] <= valueUntil)){                  
                     total++;
-                    sum += arrayResults[i];
                 }
             }
         } else {
             for(let i = 0; i < arrayResults.length; i++){        
                 if((arrayResults[i] >= valueJust) && (arrayResults[i] < valueUntil)){                  
                     total++;
-                    sum += arrayResults[i];
                 }
             }
         }
         var probability = total / arrayResults.length;
         document.getElementById('span-interval').innerHTML = 'La probabilidad es: ' + probability.toFixed(2);
-        errorTaskInterval(sum, total, probability);
+        errorTaskInterval(total, probability);
     }
     
 }
 
-function errorTaskInterval(sum, total, probability){
-    var media = sum / total;
-    var error = media / arrayResults.length;
+function errorTaskInterval(total, probability){
+    //total es cuantos hay en ese intervalo
+    var error = (valorN * valorP) / total;
     var totalError = Math.abs(error - probability);
     document.getElementById('span-error').innerHTML = 'El error cometido del intervalo es ' +  totalError.toFixed(2);
 
@@ -258,17 +247,20 @@ function graphicTCL(){
     var chart = new Chart(ctx, {
     
     type: 'bar',
-    type: 'line',
-
     
     data: {
         labels: (arrayTCL.unique()).sort((a, b) => a - b ),
         datasets: [{
-           // fill: false,
             label: "Resultados TCL",
             backgroundColor: '#f5cf87',
             borderColor: '#f5cf87',
             data: calculo(arrayResults), 
+        }, {
+            label: "Resultados TCL Curva Normal",
+            backgroundColor: 'grey',
+            data: calculo(arrayResults), 
+            fill: false,
+            type: 'line'
         }]
     },
 
