@@ -2,7 +2,7 @@
 var arrayResults = [];
 var arrayLabels = [];
 var arrayTCL = [];
-
+var simulaciones = 0;
 // END Global Variables
 
 
@@ -36,13 +36,15 @@ function show(){
     document.getElementById('section-probabilities').style.visibility='visible';
     teoremCentralLimit(arrayResults.length);
     graphicTCL();
+console.log('simulaciones arr' + arrayResults.length);
+
 }
 
 function inputValues(){
     var size = document.getElementById('size').value;
     var n = document.getElementById('valueN').value;
     var p = document.getElementById('valueP').value;
-    
+    simulaciones = size;
     if ((size === "") || (n === "") || (p === "")){
         window.alert('No puede haber campos vacíos');
         return false;
@@ -83,7 +85,7 @@ function bernoulli(p){
 function binomial(n, p) {
     var exitos = 0;
 
-    for(let i = 0; i <= n; i++){
+    for(let i = 1; i <= n; i++){
         if(bernoulli(p) == 1){
             exitos++;
         }
@@ -147,6 +149,104 @@ function errorTask(sum, total, probability){
     document.getElementById('span-error').innerHTML = 'El error cometido del intervalo es ' +  totalError.toFixed(2);
 
 }
+function maxArray(){
+    var values = arrayResults;
+    var max = 0;
+    console.log('Tam de array result' + arrayResults.length);
+    console.log('Tam de array VALLUES ' + values.length);
+    for(var i = 0; i < values.length; i++){
+      if(max < values[i]){
+          max = values[i];
+      }    
+    }
+  console.log('Maximo del array ' + max);
+  return max;
+}
 
+
+Array.prototype.unique=function(a){
+    return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
+  });
+
+function calculo(){
+
+    var x = arrayResults.sort((a, b) => a - b );
+    var frecuencias = [];
+    frecuencias.length = ((arrayResults.unique())).length;
+    console.log('Tam array frec' + frecuencias.length);
+    var cant = 0;
+    var c = 0;
+    for(let i = 0; i < x.length; i+=cant){
+        cant=0;
+        for(let j = 0; j < x.length; j++){
+            if(x[i] == x[j]){
+                cant++;
+            }
+        }        
+        frecuencias[c] = cant;
+        c++;
+    }
+        
+    console.log('Array frecuencias ' + frecuencias);
+    return frecuencias;
+}
+
+// GRAPHICS
+
+function graphicBinomial(){
+    var ctx = document.getElementById('myChart').getContext('2d');
+    console.log("Resultado en la X simulaciones " + arrayResults.sort((a, b) => a - b ));
+    console.log("Posibles valores " + (arrayResults.unique()).sort((a, b) => a - b ));
+    var chart = new Chart(ctx, {
+    
+    type: 'bar',
+        
+    
+    data: {
+        labels: (arrayResults.unique()).sort((a, b) => a - b ), //posibles valores, EJE X y ademas ordenados
+        datasets: [{
+            label: "Resultados Binomial",
+            backgroundColor: '#c75c5c',
+            borderColor: '#c75c5c',
+            data: calculo(),
+        }]
+    },
+    
+    options: {}
+    
+    });
+
+    var chart = document.getElementById('myChart').style.visibility='visible';    
+}
+
+
+function graphicTCL(){
+    var ctx = document.getElementById('secondChart').getContext('2d');
+    var chart = new Chart(ctx, {
+    
+    type: 'bar',
+
+    
+    data: {
+        labels: arrayTCL,
+        datasets: [{
+            label: "Resultados TCL",
+            backgroundColor: '#f5cf87',
+            borderColor: '#f5cf87',
+            data: arrayResults, 
+        }]
+    },
+
+    
+    options: {}
+    
+});
+    var chart = document.getElementById('secondChart').style.visibility='visible';        
+    document.getElementById('mediaTCL').innerHTML = 'La media es ' + media(arrayTCL).toFixed(0);
+    document.getElementById('varianzaTCL').innerHTML = 'La varianza es ' + variance(arrayTCL).toFixed(0);
+
+}
+
+// END GRAPHICS
 
 
