@@ -113,7 +113,7 @@ function calculateProbSing(){
     }
 
     var probability = total / arrayResults.length;    
-    document.getElementById('span-singular').innerHTML = 'La probabilidad (relativa) es: ' + probability;
+    document.getElementById('span-singular').innerHTML = 'La probabilidad es: ' + probability.toFixed(2);
 }
 
 function calculateProbInterval(){
@@ -133,16 +133,18 @@ function calculateProbInterval(){
             }
         }
         var probability = total / arrayResults.length;
-        document.getElementById('span-interval').innerHTML = 'La probabilidad (relativa) es: ' + probability;
-        errorTask(sum, total);
+        document.getElementById('span-interval').innerHTML = 'La probabilidad es: ' + probability.toFixed(2);
+        errorTask(sum, total, probability);
     }
     
 }
 
-function errorTask(sum, total){
+function errorTask(sum, total, probability){
     var media = sum / total;
     var error = media / arrayResults.length;
-    document.getElementById('span-error').innerHTML = 'El error cometido del intervalo es ' +  error.toFixed(2);
+    console.log('NUMERO DE ELEMENTOS: ' + arrayResults.length);
+    var totalError = Math.abs(error - probability);
+    document.getElementById('span-error').innerHTML = 'El error cometido del intervalo es ' +  totalError.toFixed(2);
 
 }
 
