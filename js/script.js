@@ -65,7 +65,7 @@ function results(size, n, p){
     for(let i = 0; i < size; i++){ 
         result = binomial(n, p);   
         arrayResults[i] = result;
-        arrayLabels[i] = i+1;        
+       // arrayLabels[i] = i+1;        
         media += result;
     }
 
@@ -171,6 +171,7 @@ function errorTaskInterval(total, probability){
     document.getElementById('span-error').innerHTML = 'El error cometido del intervalo es ' +  totalError.toFixed(2);
 
 }
+
 function maxArray(){
     var values = arrayResults;
     var max = 0;
